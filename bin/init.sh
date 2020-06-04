@@ -31,13 +31,14 @@ fi
 echo -en "${INPUT} Название приложения: ";
 read APP_NAME;
 echo -e "APP_NAME=\"${APP_NAME}\"" >> .env
+echo -e "APP_KEY=" >> .env
 
 echo -en "${INPUT} Локальный или прод? [l/p]: ";
-read ENV;
+read ENV_INPUT;
 
 echo -e "DOCKER_USER=${USER}" >> .env
 echo -e "DOCKER_UID=${ID}" >> .env
-if [[ ${ENV} != "p" ]]; then
+if [[ "${ENV_INPUT}" == "p" ]]; then
 	echo -e "APP_ENV=production" >> .env
 	echo -e "APP_DEBUG=false" >> .env
 else
@@ -51,7 +52,7 @@ echo -e "APP_BASE_URL=${APP_BASE_URL}" >> .env
 
 echo -e "\n" >> .env;
 echo -e "DB_CONNECTION=mysql" >> .env
-echo -e "DB_HOST=127.0.0.1" >> .env
+echo -e "DB_HOST=db" >> .env
 echo -e "DB_PORT=3306" >> .env
 
 echo -en "${INPUT} Название бд: ";
@@ -69,25 +70,29 @@ echo -e "DB_PASSWORD=${DB_PASSWORD}" >> .env
 # Все по умолчанию
 for file in `find ${ENV_DIR} -type f -name "*.default.env"`
 do
-   cat ${file} >> .env;
+    echo -e "\n # ${file} included \n" >> .env;
+    cat ${file} >> .env;
 done
 
 
-if [[ ${ENV} != "p" ]]; then
+if [[ "${ENV_INPUT}" != "p" ]]; then
 	for file in `find ${ENV_DIR} -type f -name "*.prod.env"`
 	do
-	   cat ${file} >> .env;
+        echo -e "\n # ${file} included \n" >> .env;
+        cat ${file} >> .env;
 	done
 else
 	for file in `find ${ENV_DIR} -type f -name "*.local.env"`
 	do
-	   cat ${file} >> .env;
+        echo -e "\n # ${file} included \n" >> .env;
+        cat ${file} >> .env;
 	done
 fi
 
 for file in `find ${ENV_DIR} -type f -name "*.local.env"`
 do
-   cat ${file} >> .env;
+    echo -e "\n # ${file} included \n" >> .env;
+    cat ${file} >> .env;
 done
 
 echo -e "${INFO} .env файл сгенерирован!";
