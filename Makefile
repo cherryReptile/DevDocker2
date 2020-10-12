@@ -16,20 +16,21 @@ up:
 status:
 	docker-compose ps
 down:
-	@make dump
 	docker-compose stop
 exec:
-	docker-compose exec app bash
+	docker-compose exec app zsh
 rm:
 	docker-compose rm
 dump:
 	echo "\e[42m\e[37m[INFO]\033[0m Делаем дамп базы данных"
-	docker-compose exec db mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} > ./docker/dump.sql
-	sed -i '1,1d' docker/dump.sql
+	docker-compose exec db mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} | gzip > ./docker/dump.sql.gz
+	#sed -i '1,1d' docker/dump.sql
 exec.nginx:
 	docker-compose exec nginx /bin/sh
 exec.db:
 	docker-compose exec db bash
+redis:
+	docker-compose exec redis redis-cli
 network.down:
 	@make down
 	docker network prune

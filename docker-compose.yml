@@ -32,9 +32,7 @@ services:
     image: mysql:5.7
     restart: unless-stopped
     volumes:
-      - ./docker/db:/var/lib/mysql
       - ./docker/conf/db/conf.cnf:/etc/mysql/conf.d/project.cnf
-      - ./docker/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -47,5 +45,5 @@ services:
   redis:
     image: redis:alpine
     restart: unless-stopped
-    volumes:
-      - ./docker/redis:/var/lib/redis
+    ports:
+      - 6379:6379
