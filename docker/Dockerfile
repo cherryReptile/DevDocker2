@@ -40,6 +40,11 @@ RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis
 
+
+# Xdebug
+RUN pecl install xdebug
+COPY ./docker/conf/php/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
+
 # Image Magick
 RUN printf "\n" | pecl install imagick
 RUN docker-php-ext-enable imagick

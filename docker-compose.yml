@@ -25,6 +25,9 @@ services:
       dockerfile: ./docker/Dockerfile
     restart: unless-stopped
     working_dir: /var/www/
+    environment:
+      XDEBUG_CONFIG: remote_host=172.17.0.1
+      PHP_IDE_CONFIG: "serverName=Docker"
     volumes:
       - ./:/var/www
       - ./docker/conf/php/project.ini:/usr/local/etc/php/conf.d/project.ini
