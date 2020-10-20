@@ -43,7 +43,7 @@ RUN pecl install -o -f redis \
 
 # Xdebug
 RUN pecl install xdebug
-COPY ./docker/conf/php/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
+COPY ./docker/conf/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Image Magick
 RUN printf "\n" | pecl install imagick
