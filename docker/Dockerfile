@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8-fpm
 
 # Аргументы принимающие из docker-compose.yml
 ARG user
@@ -18,39 +18,37 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     zlib1g-dev \
     libzip-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     unzip \
     zsh \
-    mariadb-client \
+    libpq-dev \
     git
 
-
+#nodejs
 RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 RUN bash ./nodesource_setup.sh
 RUN rm ./nodesource_setup.sh
 RUN apt install nodejs -y
+RUN npm install -g nodemon
 
 # Очистка кэша apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Установка расширений php
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip
 
 # Redis
 RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis
 
-
-# Xdebug
-RUN pecl install xdebug
-COPY ./docker/conf/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
 # Image Magick
 RUN printf "\n" | pecl install imagick
-RUN docker-php-ext-enable imagick
+RUN docker-php-ext-enable imagick gd
 
 # Последний композер
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Создание системного пользователя
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
