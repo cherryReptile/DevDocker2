@@ -28,6 +28,15 @@ if [[ ${continue} != "y" ]]; then
 	exit 1;
 fi
 
+echo -e "${INPUT} Загрузить laravel? [y/n]";
+read load;
+
+if [[ ${load} != "n" ]]; then
+  git clone -q https://github.com/laravel/laravel
+  mv ./laravel/* ./
+  rm -rf ./laravel
+fi
+
 echo -en "${INPUT} Название приложения: ";
 read APP_NAME;
 echo -e "APP_NAME=\"${APP_NAME}\"" >> .env
