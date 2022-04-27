@@ -32,7 +32,7 @@ echo -e "${INPUT} Загрузить laravel? [y/n]";
 read load;
 
 if [[ ${load} != "n" ]]; then
-  git clone -q https://github.com/laravel/laravel
+  git clone -q git@github.com:laravel/laravel.git
   mv ./laravel/* ./
   rm -rf ./laravel
 fi
