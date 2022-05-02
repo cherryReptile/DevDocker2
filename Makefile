@@ -18,7 +18,7 @@ status:
 down:
 	docker-compose stop
 exec:
-	docker-compose exec app zsh
+	docker-compose exec app bash
 rm:
 	docker-compose rm
 dump:
