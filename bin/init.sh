@@ -60,9 +60,9 @@ read APP_BASE_URL;
 echo -e "APP_BASE_URL=${APP_BASE_URL}" >> .env
 
 echo -e "\n" >> .env;
-echo -e "DB_CONNECTION=mysql" >> .env
-echo -e "DB_HOST=db" >> .env
-echo -e "DB_PORT=3306" >> .env
+echo -e "DB_CONNECTION=pgsql" >> .env
+echo -e "DB_HOST=localhost" >> .env
+echo -e "DB_PORT=5432" >> .env
 
 echo -en "${INPUT} Название бд: ";
 read DB_DATABASE;
