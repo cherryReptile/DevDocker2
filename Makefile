@@ -11,6 +11,7 @@ build:
 	docker-compose up --build -d
 	@make status
 up:
+	docker-compose pull
 	docker-compose up -d
 	@make status
 status:
